@@ -1,0 +1,20 @@
+spring:
+  servlet:
+    name: common-dv
+  datasource:
+    url: jdbc:mysql://localhost:3306/common?useSSL=false&serverTimezone=UTC
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+
+#项目启动，卡着不动
+#logging:
+#  file:
+#    path: /data/HC_logs/common/
+#  level:
+#    root: ERROR
+#    com.shdata.health: DEBUG

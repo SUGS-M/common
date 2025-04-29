@@ -1,0 +1,86 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.controller;
+
+import com.myy.common.base.PageData;
+import ${packagePath}${modulePackage}.service.${ClassName}Service;
+import ${packagePath}${modulePackage}.vo.${ClassName}SearchVo;
+import ${packagePath}${modulePackage}.vo.${ClassName}Vo;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+#if($excel)
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
+#end
+/**
+ * ${entityName}接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Validated
+@RestController
+@RequestMapping("${className}")
+public class ${ClassName}Controller {
+
+    private final ${ClassName}Service ${className}Service;
+
+    public ${ClassName}Controller(${ClassName}Service ${className}Service) {
+        this.${className}Service = ${className}Service;
+    }
+
+    /**
+     * 通过ID查询${entityName}VO
+     */
+    @GetMapping("get")
+    public ResponseEntity<${ClassName}Vo> get(@RequestParam("id") String id) {
+        return ResponseEntity.ok(${className}Service.findById(id, ${ClassName}Vo.class));
+    }
+
+    /**
+     * 通过ID逻辑删除${entityName}
+     */
+    @GetMapping("delete")
+    public ResponseEntity<String> delete(@RequestParam("id") String id) {
+        return ResponseEntity.ok(${className}Service.deleteById(id));
+    }
+
+    /**
+     * 保存或者更新${entityName}数据
+     */
+    @PostMapping("save")
+    public ResponseEntity<String> save(@RequestBody @Valid ${ClassName}Vo vo) {
+        return ResponseEntity.ok(${className}Service.saveOrUpdate(vo));
+    }
+
+    /**
+     * 查询${entityName}分页数据
+     */
+    @PostMapping("page")
+    public ResponseEntity<PageData<${ClassName}Vo>> page(@RequestBody ${ClassName}SearchVo vo) {
+        return ResponseEntity.ok(${className}Service.findByPage(vo));
+    }
+    #if($excel)
+    /**
+     * 下载的excel文件
+     */
+    @PostMapping("export")
+    public void export(HttpServletResponse response, @RequestBody ${ClassName}SearchVo vo) {
+        ${className}Service.export(response, vo);
+    }
+
+    /**
+     * 上传的excel文件
+     */
+    @PostMapping("/upload")
+    public ResponseEntity<String> upload(MultipartFile file) {
+        return ResponseEntity.ok(${className}Service.upload(file));
+    }
+    #end
+
+}

@@ -1,0 +1,46 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.entity;
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.myy.common.base.${EntityBaseName};
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serial;
+#foreach ($import in $entityImports)
+import ${import};
+#end
+
+/**
+ * ${entityName}实体 对应表名${tableName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@Accessors(chain = true)
+@TableName("${tableName}")
+public class ${ClassName} extends ${EntityBaseName} {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+#foreach ($column in $columns)
+    #if($column.isNotBaseField())
+    /** $column.cname */
+    #if($column.isPk())
+    @TableId
+    #else
+    @TableField("${column.sname}")
+    #end
+    private $column.javaType $column.ename;
+    #end
+#end
+}

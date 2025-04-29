@@ -1,0 +1,146 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.service;
+
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import ${packagePath}${modulePackage}.entity.${ClassName};
+import ${packagePath}${modulePackage}.mapper.${ClassName}Mapper;
+import ${packagePath}${modulePackage}.vo.${ClassName}SearchVo;
+import ${packagePath}${modulePackage}.vo.${ClassName}Vo;
+import com.myy.common.base.PageData;
+import com.myy.common.base.BaseService;
+import com.myy.common.exception.ParameterException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+#if($excel)
+import jakarta.servlet.http.HttpServletResponse;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.read.listener.PageReadListener;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.shdata.health.common.exception.ExcelException;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+#end
+
+/**
+ * ${entityName}  Service服务
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+@Transactional(readOnly = true)
+public class ${ClassName}Service extends BaseService<${ClassName}Mapper,${ClassName}> {
+
+    /**
+     * 保存或更新
+     *
+     * @param vo 提交参数
+     * @return
+     */
+    @Transactional
+    public String saveOrUpdate(${ClassName}Vo vo) {
+        validate(vo);
+        ${ClassName} po = null;
+        if (StrUtil.isNotBlank(vo.getId())) {
+            po = getById(vo.getId());
+            if (po == null) {
+                throw new ParameterException("无效的ID");
+            }
+        }
+        if (po == null) { //新增
+            po = BeanUtil.toBean(vo, ${ClassName}.class);
+            po.setId(IdUtil.objectId());
+            po.init();
+            save(po);
+            return "保存成功";
+        } else {
+            BeanUtil.copyProperties(vo, po);
+            po.initByUpdate();
+            updateById(po);
+            return "更新成功";
+        }
+    }
+
+    /**
+     * 验证对象
+     *
+     * @param vo 提交参数
+     */
+    private void validate(${ClassName}Vo vo) {
+        if (vo == null) {
+            throw new ParameterException("参数不能为空");
+        }
+
+    }
+
+    /**
+     * 查询分页数据
+     *
+     * @param search 分页查询对象
+     * @return
+     */
+    public PageData<${ClassName}Vo> findByPage(${ClassName}SearchVo search) {
+        return PageData.of(baseMapper.findByPage(search));
+    }
+
+    #if($excel)
+    /**
+     * 通过查询条件导出excel数据
+     *
+     * @param response
+     * @param search 查询参数对象
+     */
+    public void export(HttpServletResponse response, ${ClassName}SearchVo search) {
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setCharacterEncoding("utf-8");
+        String fileName = URLEncoder.encode("${entityName}数据", StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+        response.setHeader("Content-disposition", "attachment;filename*=utf-8''" + fileName + ".xlsx");
+        try (ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream(), ${ClassName}Vo.class).build()) {
+            WriteSheet writeSheet = EasyExcel.writerSheet("Sheet1").build();
+            long curPage = 1;
+            long pages;
+            do {
+                search.setCurrent(curPage);
+                search.setPageSize(1000);
+                search.setOrders(List.of(OrderItem.asc("id")));
+                PageData<${ClassName}Vo> page = findByPage(search);
+                excelWriter.write(page.getData(), writeSheet);
+                pages = page.getPages();
+                curPage++;
+            } while (curPage <= pages);
+        } catch (IOException e) {
+            throw new ExcelException("导出Excel文件异常");
+        }
+    }
+
+    /**
+     * 处理上传的excel文件
+     *
+     * @param file excel文件
+     * @return
+     */
+    public String upload(MultipartFile file) {
+        try {
+            EasyExcel.read(file.getInputStream(), ${ClassName}Vo.class, new PageReadListener<${ClassName}Vo>(dataList -> {
+                //TODO 处理读取列表数据
+
+            })).sheet().doRead();
+        } catch (IOException e) {
+            throw new ExcelException("导入Excel文件异常");
+        }
+        return "上传成功";
+    }
+    #end
+
+}

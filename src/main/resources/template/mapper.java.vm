@@ -1,0 +1,32 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.mapper;
+
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${packagePath}${modulePackage}.entity.${ClassName};
+import ${packagePath}${modulePackage}.vo.${ClassName}SearchVo;
+import ${packagePath}${modulePackage}.vo.${ClassName}Vo;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ${entityName}Mapper接口
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Mapper
+@Repository
+public interface ${ClassName}Mapper extends BaseMapper<${ClassName}> {
+
+    /**
+     * 查询分页数据
+     *
+     * @param search 分页查询对象
+     * @return 返回分页数据
+     */
+    IPage<${ClassName}Vo> findByPage(${ClassName}SearchVo search);
+}

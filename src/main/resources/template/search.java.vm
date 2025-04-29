@@ -1,0 +1,42 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.vo;
+
+import com.myy.common.base.PageSearch;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+#foreach ($import in $searchImports)
+import ${import};
+#end
+import java.util.Set;
+
+/**
+ * ${entityName}  搜索VO
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@Accessors(chain = true)
+public class ${ClassName}SearchVo extends PageSearch<${ClassName}Vo> {
+
+    #foreach ($column in $columns)
+        #if($column.search)
+            #if($column.javaType == 'Date')
+    /** $column.cname ,日期格式:yyyy-MM-dd */
+            #else
+    /** $column.cname */
+            #end
+            #if($column.javaType == 'Date')
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+            #end
+    private $column.javaType $column.ename;
+        #end
+    #end
+}

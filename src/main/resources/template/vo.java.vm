@@ -1,0 +1,63 @@
+#set($modulePackage = "")
+#if($module)
+    #set($modulePackage = ".$module")
+#end
+package ${packagePath}${modulePackage}.vo;
+
+#if($excel)
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import com.alibaba.excel.annotation.ExcelProperty;
+#end
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serial;
+import java.io.Serializable;
+#foreach ($import in $voImports)
+import ${import};
+#end
+/**
+ * ${entityName}  VO
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Data
+@NoArgsConstructor
+@Accessors(chain = true)
+#if($excel)
+@ExcelIgnoreUnannotated
+#end
+public class ${ClassName}Vo implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+        #if($column.isNotBaseField())
+            #if($column.javaType == 'Date')
+    /** $column.cname 日期格式:yyyy-MM-dd */
+            #else
+    /** $column.cname */
+            #end
+            #if($excel)
+    @ExcelProperty("$column.cname")
+            #end
+            #if($column.required())
+                #if($column.javaType == 'String')
+    @NotBlank
+                #else
+    @NotNull
+                #end
+            #end
+            #if($column.javaType == 'Date')
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+            #end
+    private $column.javaType $column.ename;
+        #end
+    #end
+}
