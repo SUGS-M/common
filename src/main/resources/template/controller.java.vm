@@ -4,7 +4,7 @@
 #end
 package ${packagePath}${modulePackage}.controller;
 
-import com.myy.common.base.PageData;
+import com.myy.common.common.base.PageData;
 import ${packagePath}${modulePackage}.service.${ClassName}Service;
 import ${packagePath}${modulePackage}.vo.${ClassName}SearchVo;
 import ${packagePath}${modulePackage}.vo.${ClassName}Vo;

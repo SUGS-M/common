@@ -4,7 +4,7 @@
 #end
 package ${packagePath}${modulePackage}.vo;
 
-import com.myy.common.base.PageSearch;
+import com.myy.common.common.base.PageSearch;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 #foreach ($import in $searchImports)
 import ${import};
 #end
-import java.util.Set;
 
 /**
  * ${entityName}  搜索VO

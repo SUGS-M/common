@@ -2,7 +2,7 @@ spring:
   servlet:
     name: common-dv
   datasource:
-    url: jdbc:mysql://localhost:3306/common?useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/usercenter?useSSL=false&serverTimezone=UTC
     username: root
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver

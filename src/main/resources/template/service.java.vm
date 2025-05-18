@@ -11,10 +11,9 @@ import ${packagePath}${modulePackage}.entity.${ClassName};
 import ${packagePath}${modulePackage}.mapper.${ClassName}Mapper;
 import ${packagePath}${modulePackage}.vo.${ClassName}SearchVo;
 import ${packagePath}${modulePackage}.vo.${ClassName}Vo;
-import com.myy.common.base.PageData;
-import com.myy.common.base.BaseService;
-import com.myy.common.exception.ParameterException;
-import org.springframework.stereotype.Service;
+import com.myy.common.common.base.PageData;
+import com.myy.common.common.base.BaseService;
+import com.myy.common.common.exception.ParameterException;
 import org.springframework.transaction.annotation.Transactional;
 
 #if($excel)
