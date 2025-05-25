@@ -1,6 +1,6 @@
 spring:
   servlet:
-    name: common-dv
+    name: common-dev
   datasource:
     url: jdbc:mysql://localhost:3306/usercenter?useSSL=false&serverTimezone=UTC
     username: root

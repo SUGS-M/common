@@ -23,12 +23,6 @@ public class BaseEntity implements Serializable {
     public static final Set<String> IGNORES = Set.of("delFlag", "createBy", "createTime", "updateBy", "updateTime");
     @Serial
     private static final long serialVersionUID = 1L;
-//    /**
-//     * 创建机构id
-//     */
-//    @TableField(value = "CREATE_JGID", fill = FieldFill.INSERT)
-//    private String createJgid;
-
     /**
      * 创建人
      */
@@ -41,13 +35,6 @@ public class BaseEntity implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
-//    /**
-//     * 更新机构id
-//     */
-//    @TableField(value = "UPDATE_JGID", fill = FieldFill.INSERT)
-//    private String updateJgid;
-
     /**
      * 更新人
      */
