@@ -1,4 +1,4 @@
-package com.myy.common.usercenter.user.vo;
+package com.myy.common.usercenter.vo;
 
 import com.myy.common.common.base.PageSearch;
 import lombok.Data;
@@ -7,14 +7,14 @@ import lombok.experimental.Accessors;
 
 
 /**
- * 用户表  搜索VO
+ * 附件表  搜索VO
  *
  * @author myy
- * @date 2025-05-18
+ * @date 2025-05-25
  */
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class userSearchVo extends PageSearch<userVo> {
+public class fileSearchVo extends PageSearch<fileVo> {
 
 }

@@ -11,6 +11,10 @@ spring:
       host: 127.0.0.1
       port: 6379
 
+
+uploadFile:
+  dir:  D:\\
+
 #项目启动，卡着不动
 #logging:
 #  file:
