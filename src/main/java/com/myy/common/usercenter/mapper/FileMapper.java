@@ -2,9 +2,9 @@ package com.myy.common.usercenter.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.myy.common.usercenter.entity.file;
-import com.myy.common.usercenter.vo.fileSearchVo;
-import com.myy.common.usercenter.vo.fileVo;
+import com.myy.common.usercenter.entity.File;
+import com.myy.common.usercenter.vo.FileSearchVo;
+import com.myy.common.usercenter.vo.FileVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
  */
 @Mapper
 @Repository
-public interface fileMapper extends BaseMapper<file> {
+public interface FileMapper extends BaseMapper<File> {
 
     /**
      * 查询分页数据
@@ -24,5 +24,5 @@ public interface fileMapper extends BaseMapper<file> {
      * @param search 分页查询对象
      * @return 返回分页数据
      */
-    IPage<fileVo> findByPage(fileSearchVo search);
+    IPage<FileVo> findByPage(FileSearchVo search);
 }

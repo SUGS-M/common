@@ -3,11 +3,10 @@ package com.myy.common.usercenter.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.myy.common.common.exception.BusinessException;
-import com.myy.common.usercenter.entity.file;
-import com.myy.common.usercenter.mapper.fileMapper;
-import com.myy.common.usercenter.vo.fileSearchVo;
-import com.myy.common.usercenter.vo.fileVo;
+import com.myy.common.usercenter.entity.File;
+import com.myy.common.usercenter.mapper.FileMapper;
+import com.myy.common.usercenter.vo.FileSearchVo;
+import com.myy.common.usercenter.vo.FileVo;
 import com.myy.common.common.base.PageData;
 import com.myy.common.common.base.BaseService;
 import com.myy.common.common.exception.ParameterException;
@@ -40,13 +39,13 @@ import java.util.Date;
  */
 @Slf4j
 @Service
-public class fileService extends BaseService<fileMapper,file> {
+public class FileService extends BaseService<FileMapper, File> {
 
     @Value("${uploadFile.dir}")
     private String uploadDir;
 
     @Transactional
-    public fileVo uploadFile(MultipartFile file) {
+    public FileVo uploadFile(MultipartFile file) {
         if (file.isEmpty()) {
             throw new ParameterException("上传的文件不能为空");
         }
@@ -67,7 +66,7 @@ public class fileService extends BaseService<fileMapper,file> {
             Path filePath = uploadPath.resolve(newFileName);//构建文件保存路径
             file.transferTo(filePath.toFile());// 保存文件
             //附件表
-            fileVo fjbVo = new fileVo();
+            FileVo fjbVo = new FileVo();
             fjbVo.setFilepath(filePath.toString());//文件路径
             fjbVo.setFilename(originalFilename);//文件名
             fjbVo.setFiletype(fileExtension);//文件类型
@@ -83,7 +82,7 @@ public class fileService extends BaseService<fileMapper,file> {
         FileInputStream fileInputStream = null;
         ServletOutputStream outputStream = null;
         try {
-            file fileVo = baseMapper.selectById(fileId);
+            File fileVo = baseMapper.selectById(fileId);
             if (fileVo == null || StrUtil.isBlank(fileVo.getFilepath())) {
                 throw new ParameterException("不存在的文件");
             }
@@ -136,9 +135,9 @@ public class fileService extends BaseService<fileMapper,file> {
      * @return
      */
     @Transactional
-    public String saveOrUpdate(fileVo vo) {
+    public String saveOrUpdate(FileVo vo) {
         validate(vo);
-        file po = null;
+        File po = null;
         if (StrUtil.isNotBlank(vo.getId())) {
             po = getById(vo.getId());
             if (po == null) {
@@ -146,7 +145,7 @@ public class fileService extends BaseService<fileMapper,file> {
             }
         }
         if (po == null) { //新增
-            po = BeanUtil.toBean(vo, file.class);
+            po = BeanUtil.toBean(vo, File.class);
             po.setId(IdUtil.objectId());
             po.init();
             save(po);
@@ -164,7 +163,7 @@ public class fileService extends BaseService<fileMapper,file> {
      *
      * @param vo 提交参数
      */
-    private void validate(fileVo vo) {
+    private void validate(FileVo vo) {
         if (vo == null) {
             throw new ParameterException("参数不能为空");
         }
@@ -177,7 +176,7 @@ public class fileService extends BaseService<fileMapper,file> {
      * @param search 分页查询对象
      * @return
      */
-    public PageData<fileVo> findByPage(fileSearchVo search) {
+    public PageData<FileVo> findByPage(FileSearchVo search) {
         return PageData.of(baseMapper.findByPage(search));
     }
 }

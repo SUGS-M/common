@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serial;
-import java.util.Date;
 
 /**
  * 附件表实体 对应表名sys_file
@@ -21,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Accessors(chain = true)
 @TableName("sys_file")
-public class file extends BaseEntity {
+public class File extends BaseEntity {
 
     @Serial
     private static final long serialVersionUID = 1L;

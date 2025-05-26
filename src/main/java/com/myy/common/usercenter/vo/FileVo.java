@@ -8,9 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 附件表  VO
  *
@@ -20,7 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class fileVo implements Serializable {
+public class FileVo implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

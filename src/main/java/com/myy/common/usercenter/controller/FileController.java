@@ -1,14 +1,10 @@
 package com.myy.common.usercenter.controller;
 
-import com.myy.common.common.base.PageData;
 import com.myy.common.common.reponse.Result;
-import com.myy.common.usercenter.service.fileService;
-import com.myy.common.usercenter.vo.fileSearchVo;
-import com.myy.common.usercenter.vo.fileVo;
+import com.myy.common.usercenter.service.FileService;
+import com.myy.common.usercenter.vo.FileVo;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,11 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Validated
 @RestController
 @RequestMapping("file")
-public class fileController {
+public class FileController {
 
-    private final fileService fileService;
+    private final FileService fileService;
 
-    public fileController(fileService fileService) {
+    public FileController(FileService fileService) {
         this.fileService = fileService;
     }
 
@@ -33,7 +29,7 @@ public class fileController {
      * 文件上传
      */
     @PostMapping("/upload")
-    public Result<fileVo> uploadFile(@RequestParam("file") MultipartFile file) {
+    public Result<FileVo> uploadFile(@RequestParam("file") MultipartFile file) {
         return Result.ok(fileService.uploadFile(file));
     }
 

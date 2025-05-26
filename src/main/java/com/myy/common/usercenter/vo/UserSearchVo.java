@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 
 
 /**
- * 附件表  搜索VO
+ * 用户表  搜索VO
  *
  * @author myy
  * @date 2025-05-25
@@ -15,6 +15,6 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
-public class fileSearchVo extends PageSearch<fileVo> {
+public class UserSearchVo extends PageSearch<UserVo> {
 
 }

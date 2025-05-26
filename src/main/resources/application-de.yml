@@ -4,16 +4,23 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/usercenter?useSSL=false&serverTimezone=UTC
     username: root
-    password:
+    password: 187369
     driver-class-name: com.mysql.cj.jdbc.Driver
   data:
     redis:
       host: 127.0.0.1
       port: 6379
 
-
+#文件上传信息
 uploadFile:
   dir:  D:\\
+
+#登录配置信息
+login:
+  #登录错误5次锁定10分钟
+  lock: true
+  #同一个用户只能在一个浏览器中登录
+  only: true
 
 #项目启动，卡着不动
 #logging:
